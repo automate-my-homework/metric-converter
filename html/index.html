@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Metric Converter | By JonPizza</title>
+        <script>
+            window.onload = function() {
+                const f = document.getElementById('f');
+                const result = document.getElementById('result');
+
+                const num_input = document.getElementById('num');
+                const u1 = document.getElementById('u1');
+                const u2 = document.getElementById('u2');
+
+                f.addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    sendReq(num_input.value, u1.value, u2.value);
+                });
+
+                function sendReq(num, unit1, unit2) {
+                    request = new XMLHttpRequest(); 
+                    request.open("POST", "/solve", true);
+                    request.setRequestHeader('Content-Type', 'application/json');
+
+                    request.onload = function() {
+                        result.innerHTML = this.response;
+                    }
+
+                    request.send(JSON.stringify({
+                        'num': num,
+                        'unit1': unit1,
+                        'unit2': unit2
+                    }));
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <form id="f">
+            Convert <input type="text" placeholder="Number" id="num"> of <input type="text" placeholder="Unit 1" id="u1"> to <input type="text" placeholder="Unit 2" id="u2">
+            <button type="submit">Submit</button>
+        </form>
+
+        <b id="result"></b>
+        <br />
+        <i>This Page Got <%- pageViews -%> Views.</i>
+    </body>
+</html>
